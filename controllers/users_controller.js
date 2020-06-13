@@ -83,9 +83,15 @@ module.exports.createSession = function(request, response){
             response.cookie('user_id', user.id);
             return response.redirect('/users/profile');
         } else {
-            
+
             //handle user not found
             return response.redirect('back');
         }
     });
+}
+
+module.exports.signOut = function(request, response)
+{
+    response.clearCookie('user_id');
+    return response.redirect('/users/sign-in');
 }
