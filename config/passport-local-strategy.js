@@ -13,7 +13,7 @@ passport.use(new LocalStrategy({
         //find a user and establish the identity
         User.findOne({email: email}, function(err, user){
             if(err){
-                console.log('Error in finding user -> Passport');
+                console.log('Error in finding user --> Passport');
                 return done(err);
             }
 
