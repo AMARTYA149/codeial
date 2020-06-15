@@ -29,6 +29,23 @@ app.use('/', require('./routes'));
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
+
+// encryption of cookie
+app.use(session({
+    name: 'codeial',
+    //TODO change the secret before deployment in the production
+    secret: 'blahsomething',
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        maxAge: (1000 * 60 * 100)
+    }
+}));
+
+// passport initialisation
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.listen(port, function(err){
     if(err){
         console.log(`Error in running the server: ${err}`);
