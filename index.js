@@ -39,7 +39,18 @@ app.use(session({
     resave: false,
     cookie: {
         maxAge: (1000 * 60 * 100)
-    }
+    },
+    //mongo store is used to store the session cookie in the db
+    store: new MongoStore(
+        {
+        
+            mongooseConnection: db,
+            autoRemoved: 'disabled'
+        },
+        function(err){
+            console.log(err || 'connect-mongodb setup ok');
+        }
+    )
 }));
 
 // passport initialisation
