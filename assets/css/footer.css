@@ -3,8 +3,7 @@ footer {
   width: 100%;
   background: grey;
   display: flex;
-  align-items: center;
-  bottom: 0%; }
+  align-items: center; }
   footer div {
     margin: 0 1%; }
     footer div a {
