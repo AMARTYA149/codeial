@@ -4,4 +4,4 @@ body {
   font-family: 'Poppins';
   /* text-align: center; */ }
   body #layout-main {
-    height: auto; }
+    min-height: 80vh; }
