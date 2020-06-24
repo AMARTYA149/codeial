@@ -8,6 +8,8 @@ header {
   header a {
     text-decoration: none;
     color: white; }
+    header a h2 {
+      color: black; }
   header #credentials {
     padding-right: 1%;
     width: 13%; }
