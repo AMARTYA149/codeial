@@ -1,5 +1,7 @@
 const User = require('../models/user');
 
+
+// keeping it same as before i.e. not keeping async await for learning the difference in way of coding
 module.exports.profile = function(request, response){
     // response.end('<h1>User Profile</h1>');
     User.findById(request.params.id, function(err, user){
