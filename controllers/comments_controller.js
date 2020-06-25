@@ -22,38 +22,40 @@ module.exports.create = async function(request, response){
     }
 }
 
-module.exports.destroy = function(request, response){
-    Comment.findById(request.params.id, function(err, comment){
+module.exports.destroy = async function(request, response){
+    try {
+        
+        let comment = await Comment.findById(request.params.id);
+    
         let postId = comment.post;
         
         //Deletion of comment by Comment's Owner
         if(comment.user == request.user.id){
             
             comment.remove();
-
-            Post.findByIdAndUpdate(postId, { $pull: {comments: request.params.id}}, function(err, post){
-                return response.redirect('back');
-            })
+            let post = await Post.findByIdAndUpdate(postId, { $pull: {comments: request.params.id}});
+            return response.redirect('back');
         }  else {
 
             //Deletion of comment by Post's Owner (Might need rectification)
-            Post.findById(postId, function(err, post){
-                if(post.user == request.user.id){
+            let post = await Post.findById(postId);
+            if(post.user == request.user.id){
             
-                    // let postId = comment.post;
-        
-                    comment.remove();
-        
-                    Post.findByIdAndUpdate(postId, { $pull: {comments: request.params.id}}, function(err, post){
-                        return response.redirect('back');
-                    });
-                }
-                else {
-                    return response.redirect('back');
-                } 
-            });
+                // let postId = comment.post;    
+                comment.remove();
+    
+                let post = await Post.findByIdAndUpdate(postId, { $pull: {comments: request.params.id}});
+                return response.redirect('back');
+            }
+            else {
+                return response.redirect('back');
+            }             
+        }    
 
-            
-        }
-    })
+    } catch (err) {
+        console.log('Error', err);
+        return;
+    }
+    
+    
 }
