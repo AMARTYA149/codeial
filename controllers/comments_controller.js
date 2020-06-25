@@ -55,7 +55,5 @@ module.exports.destroy = async function(request, response){
     } catch (err) {
         console.log('Error', err);
         return;
-    }
-    
-    
+    }    
 }
