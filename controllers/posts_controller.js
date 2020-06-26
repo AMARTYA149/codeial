@@ -4,10 +4,19 @@ const Comment = require('../models/comment');
 module.exports.create = async function(request, response){
     
     try{
-        await Post.create({
+        let post = await Post.create({
             content: request.body.content,
             user: request.user._id
         });
+
+        if(request.xhr){
+            return response.status(200).json({
+                data: {
+                    post: post
+                }, 
+                message: "Post created!"
+            });
+        }
 
         request.flash('success', 'Post published!');
         return response.redirect('back');
@@ -35,7 +44,7 @@ module.exports.destroy = async function(request, response){
             return response.redirect('back');
             }
         }
-    catch{
+    catch(err){
         request.flash('error', err);
         return response.redirect('back');
     }
