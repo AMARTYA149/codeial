@@ -1,4 +1,4 @@
-// Let's implement this via classes
+//implementing this via classes
 
 // this class would be initialized for every post on the page
 // 1. When the page loads
