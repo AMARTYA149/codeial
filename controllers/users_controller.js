@@ -15,9 +15,11 @@ module.exports.profile = function(request, response){
 module.exports.update = function(request, response){
     if(request.user.id == request.params.id){
         User.findByIdAndUpdate(request.params.id, request.body, function(err, user){
+            request.flash('success', 'Updated!');
             return response.redirect('back');
         });
     } else {
+        request.flash('error', 'Unauthorised!');
         return response.status(401).send('Unauthorised');
     }
 }
@@ -51,22 +53,26 @@ module.exports.signIn = function(request, response){
 //get the sign up data
 module.exports.create = function(request, response){
     if(request.body.password != request.body.confirm_password){
+        request.flash('error', 'Passwords do not match');
         return response.redirect('back');
     }
     User.findOne({email: request.body.email}, function(err, user){
         if(err){
+            request.flash('error', err);
             console.log('Error in finding user in signing up');
             return;
         }
         if(!user){
             User.create(request.body, function(err, user ){
             if(err){
+                request.flash('error', err);
                 console.log('Error in finding user in signing up');
                 return;
             }
             return response.redirect('/users/sign-in');
             })
         } else {
+            request.flash('success', 'You have signed up, login to continue!');
             return response.redirect('back');
         }
     });

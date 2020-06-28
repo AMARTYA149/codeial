@@ -1,13 +1,16 @@
-<header>
+<header id="layout-header">
 
     
-    <div>
-        <a href="/">
-            <h2>Codeial</h2>
-        </a>
+    <div class="mini-logo">
+        <p>
+            <a href="/">
+                <h2>Codeial</h2>
+            </a>
+        </p>
+        
         
     </div>
-    <div id = "credentials">
+    <div id = "credentials" class="auth-links">
         <% if(locals.user) { %>
             <div >
                 <a href="/users/profile/<%= user.id %> ">

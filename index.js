@@ -39,7 +39,6 @@ app.set('layout extractScripts', true);
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-
 // encryption of cookie
 app.use(session({
     name: 'codeial',
@@ -53,7 +52,6 @@ app.use(session({
     //mongo store is used to store the session cookie in the db
     store: new MongoStore(
         {
-        
             mongooseConnection: db,
             autoRemoved: 'disabled'
         },
