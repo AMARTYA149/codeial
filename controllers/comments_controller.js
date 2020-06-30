@@ -28,9 +28,7 @@ module.exports.create = async function(req, res){
                 });
             }
 
-
             req.flash('success', 'Comment published!');
-
             res.redirect('/');
         }
     }catch(err){
@@ -46,9 +44,11 @@ module.exports.destroy = async function(req, res){
     try{
         let comment = await Comment.findById(req.params.id);
 
-        if (comment.user == req.user.id){
+        let postId = comment.post;
+        let post = await Post.findById(postId);
 
-            let postId = comment.post;
+        //Deleting the comment only by Comment's owner or Post's owner
+        if (comment.user == req.user.id || post.user == req.user.id){
 
             comment.remove();
 
@@ -64,17 +64,16 @@ module.exports.destroy = async function(req, res){
                 });
             }
 
-
             req.flash('success', 'Comment deleted!');
-
             return res.redirect('back');
-        }else{
+
+        }else{  
+
             req.flash('error', 'Unauthorized');
             return res.redirect('back');
         }
-    }catch(err){
+    } catch(err) {
         req.flash('error', err);
         return;
-    }
-    
+    }    
 }
