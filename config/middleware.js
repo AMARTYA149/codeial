@@ -1,7 +1,7 @@
-module.exports.setFlash = function(request, response, next){
-    response.locals.flash = {
-        'success': request.flash('success'),
-        'error': request.flash('error')
+module.exports.setFlash = function(req, res, next){
+    res.locals.flash = {
+        'success': req.flash('success'),
+        'error': req.flash('error')
     }
 
     next();

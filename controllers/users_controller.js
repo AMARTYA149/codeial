@@ -1,95 +1,89 @@
 const User = require('../models/user');
 
-
-// keeping it same as before i.e. not keeping async await for learning the difference in way of coding
-module.exports.profile = function(request, response){
-    // response.end('<h1>User Profile</h1>');
-    User.findById(request.params.id, function(err, user){
-        return response.render('user_profile', {
-            title: "User Profile",
+// let's keep it same as before
+module.exports.profile = function(req, res){
+    User.findById(req.params.id, function(err, user){
+        return res.render('user_profile', {
+            title: 'User Profile',
             profile_user: user
         });
-    });    
+    });
+
 }
 
-module.exports.update = function(request, response){
-    if(request.user.id == request.params.id){
-        User.findByIdAndUpdate(request.params.id, request.body, function(err, user){
-            request.flash('success', 'Updated!');
-            return response.redirect('back');
+
+module.exports.update = function(req, res){
+    if(req.user.id == req.params.id){
+        User.findByIdAndUpdate(req.params.id, req.body, function(err, user){
+            req.flash('success', 'Updated!');
+            return res.redirect('back');
         });
-    } else {
-        request.flash('error', 'Unauthorised!');
-        return response.status(401).send('Unauthorised');
+    }else{
+        req.flash('error', 'Unauthorized!');
+        return res.status(401).send('Unauthorized');
     }
 }
 
-//render the sign up page
-module.exports.signUp = function(request, response){
 
-    if(request.isAuthenticated()){
-        return response.redirect('/users/profile');
+// render the sign up page
+module.exports.signUp = function(req, res){
+    if (req.isAuthenticated()){
+        return res.redirect('/users/profile');
     }
 
-    return response.render('user_sign_up', {
+
+    return res.render('user_sign_up', {
         title: "Codeial | Sign Up"
     })
 }
 
-//render the sign in page
-module.exports.signIn = function(request, response){
 
-    
-    if(request.isAuthenticated()){
-        return response.redirect('/users/profile');
+// render the sign in page
+module.exports.signIn = function(req, res){
+
+    if (req.isAuthenticated()){
+        return res.redirect('/users/profile');
     }
-
-    return response.render('user_sign_in', {
+    return res.render('user_sign_in', {
         title: "Codeial | Sign In"
     })
 }
 
-
-//get the sign up data
-module.exports.create = function(request, response){
-    if(request.body.password != request.body.confirm_password){
-        request.flash('error', 'Passwords do not match');
-        return response.redirect('back');
+// get the sign up data
+module.exports.create = function(req, res){
+    if (req.body.password != req.body.confirm_password){
+        req.flash('error', 'Passwords do not match');
+        return res.redirect('back');
     }
-    User.findOne({email: request.body.email}, function(err, user){
-        if(err){
-            request.flash('error', err);
-            console.log('Error in finding user in signing up');
-            return;
-        }
-        if(!user){
-            User.create(request.body, function(err, user ){
-            if(err){
-                request.flash('error', err);
-                console.log('Error in finding user in signing up');
-                return;
-            }
-            return response.redirect('/users/sign-in');
+
+    User.findOne({email: req.body.email}, function(err, user){
+        if(err){req.flash('error', err); return}
+
+        if (!user){
+            User.create(req.body, function(err, user){
+                if(err){req.flash('error', err); return}
+
+                return res.redirect('/users/sign-in');
             })
-        } else {
-            request.flash('success', 'You have signed up, login to continue!');
-            return response.redirect('back');
+        }else{
+            req.flash('success', 'You have signed up, login to continue!');
+            return res.redirect('back');
         }
+
     });
 }
 
 
-//sign in and create a session for the user
-module.exports.createSession = function(request, response){
-    request.flash('success', 'Logged in Successfully!');
-    return response.redirect('/');
+// sign in and create a session for the user
+module.exports.createSession = function(req, res){
+    req.flash('success', 'Logged in Successfully');
+    return res.redirect('/');
 }
 
+module.exports.destroySession = function(req, res){
+    req.logout();
+    req.flash('success', 'You have logged out!');
 
-//signing out and destroying the session
-module.exports.destroySession = function(request, response){
-    request.logout();
-    request.flash('success', 'You have logged out!');
-    
-    return response.redirect('/');
+
+    return res.redirect('/');
 }

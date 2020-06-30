@@ -1,43 +1,43 @@
 const Post = require('../models/post');
 const User = require('../models/user');
 
-module.exports.home = async function(request, response){
-    // return response.end('<h1>Express is up for Codeial!</h1>');
-   // console.log(request.cookies);
-   //res.cookie('user_id', 25);
-//    Post.find({}, function(err, posts){
-//     return response.render('home', {
-//         title: "Codeial | Home",
-//         posts: posts
-//     });
-//    });    
 
-//Populate the user of each post
+
+module.exports.home = async function(req, res){
+
     try{
+         // populate the user of each post
         let posts = await Post.find({})
         .sort('-createdAt')
         .populate('user')
         .populate({
             path: 'comments',
-            populate:{
+            populate: {
                 path: 'user'
             }
         });
     
-        let users = await User.find({}); 
-    
-        return response.render('home', {
+        let users = await User.find({});
+
+        return res.render('home', {
             title: "Codeial | Home",
-            posts: posts,
+            posts:  posts,
             all_users: users
         });
-    }
-    catch(err){
+
+    }catch(err){
         console.log('Error', err);
         return;
     }
-
    
 }
 
-// module.exports.actionName = function(request, response){}
+// module.exports.actionName = function(req, res){}
+
+
+// using then
+// Post.find({}).populate('comments').then(function());
+
+// let posts = Post.find({}).populate('comments').exec();
+
+// posts.then()

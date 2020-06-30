@@ -1,22 +1,20 @@
-header {
-  height: 50px;
-  width: 100%;
-  background-color: #1286F8;
+#layout-header nav {
   display: flex;
   justify-content: space-between;
-  align-items: center; }
-  header a {
-    text-decoration: none;
-    color: white; }
-    header a h2 {
-      color: black; }
-  header #credentials {
-    padding-right: 1%;
-    width: 13%; }
-  header div {
+  padding: 0 10px;
+  background: #2196f3;
+  color: white;
+  box-shadow: 1px 1px 1px 1px lightgrey; }
+  #layout-header nav .mini-logo p {
+    margin: 5px;
+    font-size: 1.4rem;
+    font-weight: bold; }
+  #layout-header nav .auth-links ul {
+    margin: 5% 5px;
     display: flex;
-    width: 10%;
-    align-items: center;
-    justify-content: space-evenly; }
-    header div div {
-      width: 50%; }
+    list-style: none; }
+    #layout-header nav .auth-links ul li {
+      margin-right: 10px; }
+  #layout-header nav a {
+    color: white;
+    text-decoration: none; }
