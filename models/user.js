@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const multer = require('multer');
 const path = require('path');
-const { Store } = require('express-session');
+// const { Store } = require('express-session');
 const AVATAR_PATH = path.join('/uploads/users/avatars');
 
 const userSchema = new mongoose.Schema({
